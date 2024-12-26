@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Карточка пользователя</title>
+</head>
+<body>
+<a href="/">Главная</a>
+<br>
+<b>Карточка пользователя</b>
+<br>
+<p th:text="${user.getId()}"></p>
+<p th:text="${user.getUsername()}"></p>
+<p th:text="${user.getEmail()}"></p>
+<br>
+
+<a th:href="@{/user/{id}/edit(id=${user.getId()})}">Изменить</a>
+<br><br>
+</body>
+</html>
