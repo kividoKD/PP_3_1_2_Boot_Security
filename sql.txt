@@ -1,4 +1,0 @@
-Добавить пользователя и роли:
-
-INSERT INTO `new_schema`.`users` (`id`, `email`, `last_name`, `password`, `username`) VALUES ('3', 'vvv@fezf', 'sdfzf', '$2a$12$mpodwjFe42i4lQ0/puAiq.poesXx9xAoimCbVJ/z5w/I1a5QSZwg.', 'qqq');
-INSERT INTO `new_schema`.`users_roles` (`user_id`, `roles_id`) VALUES ('3', '2');
