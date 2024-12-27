@@ -16,8 +16,8 @@ public class AdminController {
     }
 
     @GetMapping
-    public String userList(@RequestParam(value = "count", defaultValue = "5") String count,
-                             ModelMap model) {
+    public String getUsersList(@RequestParam(value = "count", defaultValue = "5") String count,
+                               ModelMap model) {
         model.addAttribute("count", count);
         model.addAttribute("users", userService.getListUsers());
         return "admin/admin";
@@ -37,18 +37,18 @@ public class AdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String  deleteUser(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String createUser(@ModelAttribute("user") User user) {
         return "admin/new";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/admin";
     }

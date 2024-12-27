@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Изменить пользователя</title>
-</head>
-<body>
-<a href="/user">Назад</a>
-<br>
-<b>Изменить пользователя</b>
-<br>
-<form action="#"
-      th:action="@{/user/{id}(id=${user.getId()})}"
-      th:object="${user}"
-      method="post">
-    <label for="firstname">Name</label>
-    <input type="text" th:field="*{username}" id="firstname" placeholder="Name">
-    <br>
-    <label for="mail">Email</label>
-    <input type="text" th:field="*{email}" id="mail" placeholder="Email">
-    <br>
-    <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" placeholder="Password">
-    <br>
-    <input type="submit" value="Сохранить">
-</form>
+    <head>
+        <meta charset="UTF-8">
+        <title>Изменить пользователя</title>
+    </head>
+    <body>
+        <a href="/user">Назад</a>
+        <br>
+        <b>Изменить пользователя</b>
+        <br>
+        <form action="#"
+              th:action="@{/user/{id}(id=${user.getId()})}"
+              th:object="${user}"
+              method="post">
+            <label for="firstname">Name</label>
+            <input type="text" th:field="*{username}" id="firstname" placeholder="Name">
+            <br>
 
-</body>
+            <label for="mail">Email</label>
+            <input type="text" th:field="*{email}" id="mail" placeholder="Email">
+            <br>
+
+            <label for="password">Password</label>
+            <input type="password" th:field="*{password}" id="password" placeholder="Password">
+            <br>
+
+            <input type="submit" value="Сохранить">
+        </form>
+    </body>
 </html>
