@@ -28,11 +28,6 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") User userForm) {
         userService.addUser(userForm);
-        return "redirect:/user";
-    }
-
-    @GetMapping("/")
-    public String login() {
-        return "redirect:/registration";
+        return "redirect:/";
     }
 }

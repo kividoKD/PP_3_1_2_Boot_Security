@@ -1,9 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
+
 import java.util.Objects;
 import java.util.Set;
 
