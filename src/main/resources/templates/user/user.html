@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
-        <meta charset="UTF-8">
         <title>Карточка пользователя</title>
     </head>
     <body>
-        <br>
-        <b>Карточка пользователя</b>
-        <br>
-        <p th:text="${user.getId()}"></p>
-        <p th:text="${user.getUsername()}"></p>
-        <p th:text="${user.getEmail()}"></p>
-        <br>
-
-        <a th:href="@{/user/{id}/edit(id=${user.getId()})}">Изменить</a>
-        <br><br>
+        <div layout:fragment="content">
+            <b>Карточка пользователя</b>
+            <br>
+            <p th:text="${user.getId()}"></p>
+            <p th:text="${user.getUsername()}"></p>
+            <p th:text="${user.getEmail()}"></p>
+            <br>
+            <a th:href="@{/user/{id}/edit(id=${user.getId()})}">Изменить</a>
+        </div>
     </body>
 </html>

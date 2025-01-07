@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
-        <meta charset="UTF-8">
         <title>Admin</title>
     </head>
     <body>
-        <br>
-        <div>
-            <table>
-                <thead>
-                <th>ID</th>
-                <th>UserName</th>
-                <th>Email</th>
-                <th>Roles</th>
-                </thead>
+        <div layout:fragment="content">
+            <div>
+                <table>
+                    <thead>
+                    <th>ID</th>
+                    <th>UserName</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    </thead>
 
-                <tbody>
-                <tr th:each="user, stat : ${users}" th:if="${stat.count} <= ${count} or ${count} >= 5">
-                    <td th:text="${user.getId()}"></td>
-                    <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${user.getEmail()}"></td>
-                    <td th:text="${user.getRoles()}"></td>
-                    <td><a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Изменить</a></td>
-                </tr>
-                </tbody>
-            </table>
+                    <tbody>
+                    <tr th:each="user, stat : ${users}" th:if="${stat.count} <= ${count} or ${count} >= 5">
+                        <td th:text="${user.getId()}"></td>
+                        <td th:text="${user.getUsername()}"></td>
+                        <td th:text="${user.getEmail()}"></td>
+                        <td th:text="${user.getRoles()}"></td>
+                        <td><a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Изменить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <a href="/admin/new">Добавить пользователя</a>
         </div>
-        <br>
-        <a href="/admin/new">Добавить пользователя</a>
     </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org">
     <head>
-        <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">[[#{app.title}]]</title>
+        <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">MyApp</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,7 +16,6 @@
             <div class="container">
                 <nav class="navbar navbar-dark navbar-expand-md">
                     <a th:href="@{/}" class="navbar-brand">
-                        <img th:src="@{/images/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
                         <span class="ps-1">[[#{app.title}]]</span>
                     </a>
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
