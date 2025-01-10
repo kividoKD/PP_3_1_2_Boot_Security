@@ -1,34 +1,55 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org">
     <head>
         <title>Новый пользователь</title>
     </head>
     <body>
         <div layout:fragment="content">
-            <b>Добавить пользователя</b>
-            <br>
-            <form th:method="POST" th:action="@{/admin}" th:object="${user}">
-                <label for="name">Имя:</label>
-                <input type="text" th:field="*{username}" id="name"/>
-                <br>
+            <h1>Admin panel</h1>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Users table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/new">New User</a>
+                </li>
+            </ul>
 
-                <label for="email">Email:</label>
-                <input type="email" th:field="*{email}" id="email"/>
-                <br>
+            <div class="border p-3 bg-light">
+                <h5>Добавить нового пользователя</h5>
+            </div>
 
-                <label for="password">Password:</label>
-                <input type="text" th:field="*{password}" id="password"/>
-                <br>
+            <div class="border container text-center bg-white">
+                <div class="row justify-content-md-center m-3">
+                    <div class="col col-5">
+                        <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+                            <div class="form-group mb-3">
+                                <label for="name" class="form-label"><b>Имя:</b></label>
+                                <input type="text" th:field="*{username}" id="name" class="form-control"/>
+                            </div>
 
-                <label for="roles">Roles:</label>
-                <select id="roles" multiple="multiple" th:field="*{roles}">
-                    <option th:each="role: ${rolesFromDb}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
-                </select>
-                <br>
-                <br>
-                <input type="submit" value="Добавить">
-            </form>
+                            <div class="form-group mb-3">
+                                <label for="email" class="form-label"><b>Email:</b></label>
+                                <input type="email" th:field="*{email}" id="email" class="form-control"/>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="password" class="form-label"><b>Password:</b></label>
+                                <input type="text" th:field="*{password}" id="password" class="form-control"/>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="roles" class="form-label"><b>Roles:</b></label>
+                                <select id="roles" multiple="multiple" th:field="*{roles}" class="form-control">
+                                    <option th:each="role: ${rolesFromDb}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">Добавить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </body>
 </html>

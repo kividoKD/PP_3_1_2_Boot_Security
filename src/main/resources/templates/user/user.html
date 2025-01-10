@@ -6,13 +6,39 @@
     </head>
     <body>
         <div layout:fragment="content">
-            <b>Карточка пользователя</b>
-            <br>
-            <p th:text="${user.getId()}"></p>
-            <p th:text="${user.getUsername()}"></p>
-            <p th:text="${user.getEmail()}"></p>
-            <br>
-            <a th:href="@{/user/{id}/edit(id=${user.getId()})}">Изменить</a>
+<!--            <b>Карточка пользователя</b>-->
+<!--            <br>-->
+<!--            <p th:text="${user.getId()}"></p>-->
+<!--            <p th:text="${user.getUsername()}"></p>-->
+<!--            <p th:text="${user.getEmail()}"></p>-->
+<!--            <br>-->
+<!--            <a th:href="@{/user/{id}/edit(id=${user.getId()})}">Изменить</a>-->
+
+            <h1>User-information page</h1>
+
+            <div class="border p-3">
+                <h5>Профиль пользователя</h5>
+            </div>
+
+            <div class="p-3 bg-white border">
+                <table class="table table-striped border-top">
+                    <thead>
+                    <th>ID</th>
+                    <th>UserName</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.getId()}"></td>
+                        <td th:text="${user.getUsername()}"></td>
+                        <td th:text="${user.getEmail()}"></td>
+                        <td th:text="${user.getRoles()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>

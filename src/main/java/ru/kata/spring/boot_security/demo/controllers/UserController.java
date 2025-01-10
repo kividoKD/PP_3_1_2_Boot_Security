@@ -23,6 +23,7 @@ public class UserController {
     public String showUserPage(Principal principal, ModelMap model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
+        model.addAttribute("activePage", "user");
         return "user/user";
     }
 

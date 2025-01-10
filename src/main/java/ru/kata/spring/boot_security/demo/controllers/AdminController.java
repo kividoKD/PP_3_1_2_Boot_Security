@@ -24,7 +24,15 @@ public class AdminController {
                                ModelMap model) {
         model.addAttribute("count", count);
         model.addAttribute("users", userService.getListUsers());
+        model.addAttribute("rolesFromDb", roleService.getListRoles());
+        model.addAttribute("activePage", "admin");
+        model.addAttribute("newUser", new User());
         return "admin/admin";
+    }
+
+    @GetMapping("/getUser")
+    public User getUser(Long id) {
+        return userService.getUser(id);
     }
 
     @GetMapping("/{id}/edit")
@@ -36,7 +44,7 @@ public class AdminController {
 
     @PostMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        user.setId(id);
+
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
@@ -50,6 +58,7 @@ public class AdminController {
     @GetMapping("/new")
     public String createUser(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("rolesFromDb", roleService.getListRoles());
+        model.addAttribute("activePage", "admin");
         return "admin/new";
     }
 

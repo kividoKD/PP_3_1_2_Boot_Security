@@ -34,14 +34,15 @@ public class WebSecurityConfig {
         http
                 .authorizeRequests()
                 .requestMatchers("/registration").not().fullyAuthenticated()
-                .requestMatchers("/", "/index").permitAll()
+                .requestMatchers("/", "/index", "/webjars/bootstrap/5.3.3/css/bootstrap.min.css").permitAll()
+                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
                 .and()
-                .logout()
+                .logout().logoutSuccessUrl("/")
                 .permitAll();
         return http.build();
     }
