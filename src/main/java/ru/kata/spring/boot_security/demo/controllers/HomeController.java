@@ -21,8 +21,8 @@ public class HomeController {
         return "index";
     }
 
-    @ModelAttribute("user")
-    public User showUserPage(Principal principal) {
+    @ModelAttribute("userFromPrincipal")
+    public User getUserFromPrincipal(Principal principal) {
         return userService.findByUsername(principal.getName());
     }
 }

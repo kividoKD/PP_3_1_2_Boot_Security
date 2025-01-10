@@ -16,8 +16,12 @@
             <div class="container">
                 <nav class="navbar navbar-dark navbar-expand-md">
                     <a th:href="@{/}" class="navbar-brand">
-                        <span th:if="${user == null}" class="ps-1">[[#{app.title}]]</span>
-                        <span th:if="${user != null}" class="ps-1"><b th:text="${user.username}"></b> with roles: <span th:text="${user.roles}"></span></span>
+                        <span th:if="${userFromPrincipal == null}" class="ps-1">[[#{app.title}]]</span>
+                        <span th:if="${userFromPrincipal != null}" class="ps-1">
+                            <b th:text="${userFromPrincipal.username}"></b>
+                            with roles:
+                            <span th:text="${userFromPrincipal.roles}"></span>
+                        </span>
                     </a>
 
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"

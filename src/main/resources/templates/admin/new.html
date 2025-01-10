@@ -22,7 +22,7 @@
             <div class="border container text-center bg-white">
                 <div class="row justify-content-md-center m-3">
                     <div class="col col-5">
-                        <form th:method="POST" th:action="@{/admin}" th:object="${newUser}">
+                        <form th:method="POST" th:action="@{/admin}" th:object="${user}">
                             <div class="form-group mb-3">
                                 <label for="name" class="form-label"><b>Имя:</b></label>
                                 <input type="text" th:field="*{username}" id="name" class="form-control"/>

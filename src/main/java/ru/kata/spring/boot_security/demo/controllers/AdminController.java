@@ -52,18 +52,18 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String editUser(ModelMap model, @PathVariable("id") Long id) {
         model.addAttribute("rolesFromDb", roleService.getListRoles());
-        model.addAttribute("user", userService.getUser(id));
-        return "admin/edit";
+        model.addAttribute("userFromDb", userService.getUser(id));
+        return "admin/admin";
     }
 
     @PostMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+    public String updateUser(@ModelAttribute("userFromDb") User user, @PathVariable("id") Long id) {
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/{id}")
-    public String updateUserPatchMapping(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+    public String updateUserPatchMapping(@ModelAttribute("userFromDb") User user, @PathVariable("id") Long id) {
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
@@ -81,9 +81,8 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String createUser(@ModelAttribute("newUser") User user, Model model) {
+    public String createUser(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("rolesFromDb", roleService.getListRoles());
-        model.addAttribute("activePage", "admin");
         return "admin/new";
     }
 
@@ -93,8 +92,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @ModelAttribute("user")
-    public User returnModelAttributeUserFromPrincipal(Principal principal) {
+    @ModelAttribute("userFromPrincipal")
+    public User getUserFromPrincipal(Principal principal) {
         return userService.findByUsername(principal.getName());
     }
 
