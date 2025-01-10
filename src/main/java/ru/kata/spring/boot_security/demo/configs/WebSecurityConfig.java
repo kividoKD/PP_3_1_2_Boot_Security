@@ -35,6 +35,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/registration").not().fullyAuthenticated()
                 .requestMatchers("/", "/index").permitAll()
+                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
