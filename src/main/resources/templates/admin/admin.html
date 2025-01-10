@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
         <title>Admin</title>
     </head>
@@ -52,7 +52,7 @@
                                  aria-hidden="true">
                                 <form th:action="@{/admin/{id}(id=${user.getId()})}"
                                       th:object="${newUser}"
-                                      method="post">
+                                      th:method="patch">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">

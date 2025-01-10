@@ -16,8 +16,10 @@
             <div class="container">
                 <nav class="navbar navbar-dark navbar-expand-md">
                     <a th:href="@{/}" class="navbar-brand">
-                        <span class="ps-1">[[#{app.title}]]</span>
+                        <span th:if="${user == null}" class="ps-1">[[#{app.title}]]</span>
+                        <span th:if="${user != null}" class="ps-1"><b th:text="${user.username}"></b> with roles: <span th:text="${user.roles}"></span></span>
                     </a>
+
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
                             th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
                         <span class="navbar-toggler-icon"></span>
@@ -49,6 +51,7 @@
                     </div>
 
                     <div class="col-10 bg-light py-3" layout:fragment="content" />
+
                 </div>
             </div>
         </main>

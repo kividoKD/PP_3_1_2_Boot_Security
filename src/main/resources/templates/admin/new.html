@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org">
     <head>
-        <title>Новый пользователь</title>
+        <title>New User</title>
     </head>
     <body>
         <div layout:fragment="content">
@@ -22,7 +22,7 @@
             <div class="border container text-center bg-white">
                 <div class="row justify-content-md-center m-3">
                     <div class="col col-5">
-                        <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+                        <form th:method="POST" th:action="@{/admin}" th:object="${newUser}">
                             <div class="form-group mb-3">
                                 <label for="name" class="form-label"><b>Имя:</b></label>
                                 <input type="text" th:field="*{username}" id="name" class="form-control"/>

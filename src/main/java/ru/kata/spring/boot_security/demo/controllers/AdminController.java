@@ -8,6 +8,8 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -30,6 +32,18 @@ public class AdminController {
         return "admin/admin";
     }
 
+//    @GetMapping
+//    public String getUsersList(@RequestParam(value = "count", defaultValue = "5") String count,
+//                               ModelMap model,
+//                               Long id) {
+//        model.addAttribute("count", count);
+//        model.addAttribute("users", userService.getListUsers());
+//        model.addAttribute("rolesFromDb", roleService.getListRoles());
+//        model.addAttribute("activePage", "admin");
+//        model.addAttribute("newUser", getUser(id));
+//        return "admin/admin";
+//    }
+
     @GetMapping("/getUser")
     public User getUser(Long id) {
         return userService.getUser(id);
@@ -44,8 +58,19 @@ public class AdminController {
 
     @PostMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-
         userService.updateUser(id, user);
+        return "redirect:/admin";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateUserPatchMapping(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+        userService.updateUser(id, user);
+        return "redirect:/admin";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUserPatchMapping(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
         return "redirect:/admin";
     }
 
@@ -56,7 +81,7 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String createUser(@ModelAttribute("user") User user, Model model) {
+    public String createUser(@ModelAttribute("newUser") User user, Model model) {
         model.addAttribute("rolesFromDb", roleService.getListRoles());
         model.addAttribute("activePage", "admin");
         return "admin/new";
@@ -66,5 +91,15 @@ public class AdminController {
     public String addUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/admin";
+    }
+
+    @ModelAttribute("user")
+    public User returnModelAttributeUserFromPrincipal(Principal principal) {
+        return userService.findByUsername(principal.getName());
+    }
+
+    @ModelAttribute("activePage")
+    public String returnModelAttributeActivePage() {
+        return "admin";
     }
 }
