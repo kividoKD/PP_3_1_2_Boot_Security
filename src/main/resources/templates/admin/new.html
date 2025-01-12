@@ -41,7 +41,7 @@
                             <div class="form-group mb-3">
                                 <label for="roles" class="form-label"><b>Roles:</b></label>
                                 <select id="roles" multiple="multiple" th:field="*{roles}" class="form-control">
-                                    <option th:each="role: ${rolesFromDb}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
+                                    <option th:each="role: ${rolesFromDb}" th:value="${role.getId()}" th:text="${#strings.replace(role.getName(), 'ROLE_', '')}"></option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-success">Добавить</button>

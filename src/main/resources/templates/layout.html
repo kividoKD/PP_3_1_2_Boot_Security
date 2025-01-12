@@ -20,7 +20,7 @@
                         <span th:if="${userFromPrincipal != null}" class="ps-1">
                             <b th:text="${userFromPrincipal.username}"></b>
                             with roles:
-                            <span th:text="${userFromPrincipal.roles}"></span>
+                            <span th:each="role: ${userFromPrincipal.roles}" th:text="${#strings.replace(role.getName(), 'ROLE_', ' ')}"></span>
                         </span>
                     </a>
 

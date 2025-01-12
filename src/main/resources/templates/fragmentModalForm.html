@@ -1,0 +1,87 @@
+<div th:fragment="modalForm">
+    <div class="modal fade"
+         th:id="${methodMapping == 'delete' ? 'deleteuser' + user.id : 'edituser' + user.id}"
+         tabindex="-1"
+         aria-hidden="true">
+        <form th:action="@{/admin/{id}(id=${user.getId()})}"
+              th:object="${newUser}"
+              th:method="${methodMapping}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить пользователя</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div class="mb-3">
+                            <label th:for="${'id' + user.getId()}" class="col-form-label">Id</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:value="${user.id}"
+                                   th:id="${'id' + user.getId()}"
+                                   placeholder="Id"
+                                   th:name="id"
+                                   disabled/>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="${'username' + user.getId()}" class="col-form-label">Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:value="${user.username}"
+                                   th:id="${'username' + user.getId()}"
+                                   placeholder="Name"
+                                   th:name="username"
+                                   th:disabled="${methodMapping == 'delete'}"/>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="${'email' + user.getId()}" class="col-form-label">Email</label>
+                            <input type="email"
+                                   class="form-control"
+                                   th:value="${user.email}"
+                                   th:id="${'email' + user.getId()}"
+                                   placeholder="Email"
+                                   th:name="email"
+                                   th:disabled="${methodMapping == 'delete'}"/>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="${'password' + user.getId()}" class="col-form-label">Password</label>
+                            <input type="password"
+                                   class="form-control"
+                                   th:field="*{password}"
+                                   th:id="${'password' + user.getId()}"
+                                   placeholder="Password"
+                                   th:name="password"
+                                   th:disabled="${methodMapping == 'delete'}"/>
+                        </div>
+                        <div class="mb-3">
+                            <label th:for="${'roles' + user.getId()}" class="col-form-label">Roles</label>
+                            <select multiple="multiple"
+                                    class="form-control"
+                                    th:value="${user.roles}"
+                                    th:id="${'roles' + user.getId()}"
+                                    th:name="roles"
+                                    th:disabled="${methodMapping == 'delete'}">
+                                <option th:each="role: ${rolesFromDb}"
+                                        th:value="${role.getId()}"
+                                        th:text="${#strings.replace(role.getName(), 'ROLE_', '')}"></option>
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit"
+                                th:class="${methodMapping == 'delete' ? 'btn btn-danger' : 'btn btn-primary'}"
+                                th:text="${textBtn}"
+                                th:disabled="${user.getId() == userFromPrincipal.getId() && methodMapping == 'delete'}">
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

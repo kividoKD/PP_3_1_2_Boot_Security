@@ -25,7 +25,7 @@
                         <td th:text="${userFromPrincipal.getId()}"></td>
                         <td th:text="${userFromPrincipal.getUsername()}"></td>
                         <td th:text="${userFromPrincipal.getEmail()}"></td>
-                        <td th:text="${userFromPrincipal.getRoles()}"></td>
+                        <td><span th:each="role: ${userFromPrincipal.roles}" th:text="${#strings.replace(role.getName(), 'ROLE_', ' ')}"></span></td>
                     </tr>
                     </tbody>
                 </table>

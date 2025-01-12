@@ -23,6 +23,9 @@ public class HomeController {
 
     @ModelAttribute("userFromPrincipal")
     public User getUserFromPrincipal(Principal principal) {
-        return userService.findByUsername(principal.getName());
+        if (principal != null) {
+            return userService.findByUsername(principal.getName());
+        }
+        return null;
     }
 }

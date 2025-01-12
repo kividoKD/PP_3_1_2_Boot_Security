@@ -9,7 +9,7 @@
           <div class="border container text-center bg-white">
               <div class="row justify-content-md-center m-3">
                   <div class="col col-5">
-                      <form th:method="POST" th:action="@{/registration}" th:object="${userForm}">
+                      <form th:method="POST" th:action="@{/registration}" th:object="${newUser}">
                           <div class="form-group mb-3">
                               <label for="name" class="form-label"><b>Имя:</b></label>
                               <input type="text" th:field="*{username}" id="name" class="form-control"/>
