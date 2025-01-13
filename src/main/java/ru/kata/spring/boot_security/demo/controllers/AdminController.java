@@ -36,10 +36,10 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/getUser")
-    public User getUser(Long id) {
-        return userService.getUser(id);
-    }
+//    @GetMapping("/getUser")
+//    public User getUser(Long id) {
+//        return userService.getUser(id);
+//    }
 
     @GetMapping("/new")
     public String createUser(@ModelAttribute("user") User user) {
@@ -52,15 +52,15 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PatchMapping("/{id}")
-    public String updateUserPatchMapping(@ModelAttribute User user, @PathVariable("id") Long id) {
-        userService.updateUser(id, user);
-        return "redirect:/admin";
-    }
+//    @PatchMapping("/{id}")
+//    public String updateUserPatchMapping(@ModelAttribute User user, @PathVariable("id") Long id) {
+//        userService.updateUser(id, user);
+//        return "redirect:/admin";
+//    }
 
-    @DeleteMapping("/{id}")
-    public String deleteUserPatchMapping(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin";
-    }
+//    @DeleteMapping("/{id}")
+//    public String deleteUserPatchMapping(@PathVariable("id") Long id) {
+//        userService.deleteUser(id);
+//        return "redirect:/admin";
+//    }
 }

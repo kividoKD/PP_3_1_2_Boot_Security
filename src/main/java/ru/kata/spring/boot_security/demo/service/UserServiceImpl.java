@@ -34,13 +34,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         System.out.println(user.getRoles());
         if (user.getRoles() == null || user.getRoles().equals(Collections.emptySet())) {
             user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
+        return user;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void updateUser(Long id, User user) {
+    public User updateUser(Long id, User user) {
         User userFromDb = getUser(id);
         user.setId(id);
         if (Objects.equals(user.getPassword(), "")) {
@@ -69,6 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         userDao.saveAndFlush(user);
+        return userFromDb;
     }
 
     @Transactional

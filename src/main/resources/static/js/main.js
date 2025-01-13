@@ -1,91 +1,239 @@
-// $(document).ready(function(){
-//     $('.table .eBtn').on('click',function(event){
-//         // event.preventDefault();
-//         let href = $(this).attr('href');
-//
-//         $.get(href, function(user, status) {
-//             $('.myForm #id').val(user.id);
-//             $('.myForm #name').val(user.username);
-//             $('.myForm #email').val(user.email);
-//             $('.myForm #roles').val(user.roles);
-//             $('.myForm #password').val(user.password);
-//         });
-//
-//         $('.myForm #exampleModal').modal('show');
-//     });
-// });
+// Функция для загрузки данных пользователей
+function loadUsers() {
+    fetch('/api/admin/users')
+        .then(response => response.json())
+        .then(users => {
+            const tableBody = document.querySelector('#userTable tbody');
+            tableBody.innerHTML = ''; // Очищаем таблицу перед добавлением новых данных
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                const roles = user.roles.map(role => role.name.replace('ROLE_', '')).join(', ');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${roles}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="openUserModal(${user.id}, 'edit')">Изменить</button>
+                        <button class="btn btn-danger" onclick="openUserModal(${user.id}, 'delete')">Удалить</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error loading users:', error));
+}
 
+
+// Функция для открытия модального окна (редактирование или удаление)
+function openUserModal(id, mode) {
+    fetch(`/api/admin/users/${id}`)
+        .then(response => response.json())
+        .then(user => {
+            // Заполняем форму данными пользователя
+            document.querySelector('#id').value = user.id;
+            document.querySelector('#username').value = user.username;
+            document.querySelector('#email').value = user.email;
+            document.querySelector('#password').value = ''; // Очищаем поле пароля для редактирования
+            document.querySelector('#roles').innerHTML = ''; // Очищаем список ролей
+
+            // Загружаем список ролей
+            fetch('/api/admin/roles')
+                .then(response => response.json())
+                .then(roles => {
+                    const rolesSelect = document.querySelector('#roles');
+                    roles.forEach(role => {
+                        const option = document.createElement('option');
+                        option.value = role.id;  // Сохраняем id роли
+                        option.textContent = role.name.replace('ROLE_', '');
+                        if (user.roles.some(r => r.id === role.id)) {
+                            option.selected = true;
+                        }
+                        rolesSelect.appendChild(option);
+                    });
+                });
+
+            // Включаем или выключаем поля в зависимости от режима
+            const userModalLabel = document.querySelector('#userModalLabel');
+            const saveButton = document.querySelector('#saveButton');
+            const deleteButton = document.querySelector('#deleteButton');
+
+            if (mode === 'edit') {
+                userModalLabel.textContent = 'Edit User';
+                saveButton.style.display = 'inline-block';
+                deleteButton.style.display = 'none';
+                enableForm(true); // Включаем поля для редактирования
+            } else if (mode === 'delete') {
+                userModalLabel.textContent = 'Delete User';
+                saveButton.style.display = 'none';
+                deleteButton.style.display = 'inline-block';
+                enableForm(false); // Делаем поля только для чтения
+            }
+
+            // Открываем модальное окно
+            $('#userModal').modal('show');
+        })
+        .catch(error => console.error('Error loading user data:', error));
+}
+
+
+// Функция для включения/выключения полей формы
+function enableForm(isEditable) {
+    document.querySelector('#username').disabled = !isEditable;
+    document.querySelector('#email').disabled = !isEditable;
+    document.querySelector('#password').disabled = !isEditable;
+    document.querySelector('#roles').disabled = !isEditable;
+}
+
+
+// Функция для добавления пользователя
+// function addUser() {
+//     const username = document.querySelector('#username').value;
+//     const email = document.querySelector('#email').value;
+//     const roles = document.querySelector('#roles').value.split(','); // Пример, как можно получить роли
 //
-// document.addEventListener('DOMContentLoaded', function () {
-//     // Находим все кнопки "Изменить"
-//     const editButtons = document.querySelectorAll('.eBtn');
+//     const user = {
+//         username: username,
+//         email: email,
+//         roles: roles
+//     };
 //
-//     // Добавляем обработчик для каждой кнопки
-//     editButtons.forEach(function (button) {
-//         button.addEventListener('click', function (event) {
-//             const userId = event.target.getAttribute('data-id');  // ID пользователя
-//
-//             // Делаем AJAX запрос для получения данных пользователя
-//             fetch(`/admin/findOne/${userId}`)
+//     fetch('/api/admin/users', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(user)
+//     })
+//         .then(response => response.json())
+//         .then(() => {
+//             loadUsers(); // Перезагружаем данные таблицы
+//             $('#editUserModal').modal('hide'); // Закрываем модальное окно
+//         })
+//         .catch(error => console.error('Error adding user:', error));
+// }
+
+
+// Функция для редактирования пользователя
+// function editUser(id) {
+//     fetch(`/api/admin/users/${id}`)
+//         .then(response => response.json())
+//         .then(user => {
+//             // Заполняем форму редактирования данными пользователя
+//             document.querySelector('#id').value = user.id;
+//             document.querySelector('#username').value = user.username;
+//             document.querySelector('#email').value = user.email;
+//             document.querySelector('#password').value = user.password;
+//             document.querySelector('#roles').value = user.roles.map(role => role.name).join(', ');
+//             // Получаем доступные роли (предполагаем, что их можно получить с сервера)
+//             fetch('/api/admin/roles')  // Здесь используйте правильный эндпоинт для получения ролей
 //                 .then(response => response.json())
-//                 .then(user => {
-//                     // Заполняем форму данными пользователя
-//                     document.querySelector('#id').value = user.id;
-//                     document.querySelector('#name').value = user.username;
-//                     document.querySelector('#email').value = user.email;
-//
-//                     // Заполняем селект с ролями
+//                 .then(roles => {
 //                     const rolesSelect = document.querySelector('#roles');
 //                     rolesSelect.innerHTML = '';  // Очищаем текущие опции
-//                     user.roles.forEach(role => {
+//                     roles.forEach(role => {
 //                         const option = document.createElement('option');
 //                         option.value = role.id;
-//                         option.textContent = role.name;
+//                         option.textContent = role.name.replace('ROLE_', '');  // Отображаем без "ROLE_"
+//
+//                         // Если роль пользователя совпадает с ролью в списке, то отмечаем этот option
+//                         if (user.roles.some(r => r.id === role.id)) {
+//                             option.selected = true;
+//                         }
+//
 //                         rolesSelect.appendChild(option);
 //                     });
-//
-//                     // Открываем модальное окно
-//                     const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-//                     modal.show();
-//                 })
-//                 .catch(error => {
-//                     console.error('Error fetching user data:', error);
-//                     alert('Ошибка при загрузке данных пользователя');
 //                 });
+//             $('#editUserModal').modal('show'); // Открываем модальное окно
 //         });
-//     });
-//
-//     // Обработчик для отправки формы
-//     const form = document.querySelector('form');
-//     form.addEventListener('submit', function (event) {
-//         event.preventDefault();  // Предотвращаем стандартное поведение формы
-//
-//         // Собираем данные формы
-//         const formData = new FormData(form);
-//
-//         // Отправляем данные с помощью fetch
-//         fetch(form.action, {
-//             method: 'POST',
-//             body: formData
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     // Закрываем модальное окно
-//                     const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
-//                     modal.hide();
-//
-//                     // Обновляем таблицу или выполняем другие действия
-//                     alert('Данные успешно сохранены!');
-//                     location.reload();  // Перезагружаем страницу для обновления таблицы
-//                 } else {
-//                     alert('Ошибка при сохранении данных!');
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error saving user data:', error);
-//                 alert('Ошибка при сохранении данных');
-//             });
-//     });
-// });
+// }
 
+
+// Функция для сохранения изменений пользователя
+function updateUser() {
+    const id = document.querySelector('#id').value;
+    const username = document.querySelector('#username').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const roles = Array.from(document.querySelector('#roles').selectedOptions)
+        .map(option => ({ id: option.value }));  // Преобразуем в массив объектов
+
+
+    const user = {
+        id: id,
+        username: username,
+        email: email,
+        password: password,
+        roles: roles
+    };
+
+    fetch(`/api/admin/users/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+        .then(response => response.json())
+        .then(() => {
+            loadUsers(); // Обновляем таблицу
+            $('#userModal').modal('hide'); // Закрываем модальное окно
+        })
+        .catch(error => console.error('Error updating user:', error));
+}
+
+
+// Функция для открытия модального окна с данными пользователя для удаления
+// function openDeleteUserModal(id) {
+//     fetch(`/api/admin/users/${id}`)
+//         .then(response => response.json())
+//         .then(user => {
+//             // Заполняем форму данными пользователя
+//             document.querySelector('#deleteUserId').value = user.id;
+//             document.querySelector('#deleteUsername').value = user.username;
+//             document.querySelector('#deleteEmail').value = user.email;
+//             document.querySelector('#deleteRoles').value = user.roles.map(role => role.name.replace('ROLE_', '')).join(', '); // Показываем роли как текст
+//
+//             // Открываем модальное окно для подтверждения удаления
+//             $('#deleteUserModal').modal('show');
+//         })
+//         .catch(error => console.error('Error loading user data for delete:', error));
+// }
+
+
+// Функция для подтверждения удаления пользователя
+function confirmDeleteUser() {
+    const id = document.querySelector('#id').value;
+
+    fetch(`/api/admin/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(() => {
+            loadUsers(); // Обновляем таблицу пользователей
+            $('#userModal').modal('hide'); // Закрываем модальное окно
+        })
+        .catch(error => console.error('Error deleting user:', error));
+}
+
+
+// Функция для удаления пользователя
+// function deleteUser(id) {
+//     console.log(id);
+//     fetch(`/api/admin/users/${id}`, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//
+//     })
+//         .then(() => loadUsers()) // Обновляем таблицу после удаления
+//         .catch(error => console.error('Error deleting user:', error));
+// }
+
+// Инициализация страницы
+document.addEventListener('DOMContentLoaded', function () {
+    loadUsers(); // Загружаем данные при загрузке страницы
+});
