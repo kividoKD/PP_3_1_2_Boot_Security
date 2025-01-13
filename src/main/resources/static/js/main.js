@@ -86,69 +86,6 @@ function enableForm(isEditable) {
 }
 
 
-// Функция для добавления пользователя
-// function addUser() {
-//     const username = document.querySelector('#username').value;
-//     const email = document.querySelector('#email').value;
-//     const roles = document.querySelector('#roles').value.split(','); // Пример, как можно получить роли
-//
-//     const user = {
-//         username: username,
-//         email: email,
-//         roles: roles
-//     };
-//
-//     fetch('/api/admin/users', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(user)
-//     })
-//         .then(response => response.json())
-//         .then(() => {
-//             loadUsers(); // Перезагружаем данные таблицы
-//             $('#editUserModal').modal('hide'); // Закрываем модальное окно
-//         })
-//         .catch(error => console.error('Error adding user:', error));
-// }
-
-
-// Функция для редактирования пользователя
-// function editUser(id) {
-//     fetch(`/api/admin/users/${id}`)
-//         .then(response => response.json())
-//         .then(user => {
-//             // Заполняем форму редактирования данными пользователя
-//             document.querySelector('#id').value = user.id;
-//             document.querySelector('#username').value = user.username;
-//             document.querySelector('#email').value = user.email;
-//             document.querySelector('#password').value = user.password;
-//             document.querySelector('#roles').value = user.roles.map(role => role.name).join(', ');
-//             // Получаем доступные роли (предполагаем, что их можно получить с сервера)
-//             fetch('/api/admin/roles')  // Здесь используйте правильный эндпоинт для получения ролей
-//                 .then(response => response.json())
-//                 .then(roles => {
-//                     const rolesSelect = document.querySelector('#roles');
-//                     rolesSelect.innerHTML = '';  // Очищаем текущие опции
-//                     roles.forEach(role => {
-//                         const option = document.createElement('option');
-//                         option.value = role.id;
-//                         option.textContent = role.name.replace('ROLE_', '');  // Отображаем без "ROLE_"
-//
-//                         // Если роль пользователя совпадает с ролью в списке, то отмечаем этот option
-//                         if (user.roles.some(r => r.id === role.id)) {
-//                             option.selected = true;
-//                         }
-//
-//                         rolesSelect.appendChild(option);
-//                     });
-//                 });
-//             $('#editUserModal').modal('show'); // Открываем модальное окно
-//         });
-// }
-
-
 // Функция для сохранения изменений пользователя
 function updateUser() {
     const id = document.querySelector('#id').value;
@@ -183,24 +120,6 @@ function updateUser() {
 }
 
 
-// Функция для открытия модального окна с данными пользователя для удаления
-// function openDeleteUserModal(id) {
-//     fetch(`/api/admin/users/${id}`)
-//         .then(response => response.json())
-//         .then(user => {
-//             // Заполняем форму данными пользователя
-//             document.querySelector('#deleteUserId').value = user.id;
-//             document.querySelector('#deleteUsername').value = user.username;
-//             document.querySelector('#deleteEmail').value = user.email;
-//             document.querySelector('#deleteRoles').value = user.roles.map(role => role.name.replace('ROLE_', '')).join(', '); // Показываем роли как текст
-//
-//             // Открываем модальное окно для подтверждения удаления
-//             $('#deleteUserModal').modal('show');
-//         })
-//         .catch(error => console.error('Error loading user data for delete:', error));
-// }
-
-
 // Функция для подтверждения удаления пользователя
 function confirmDeleteUser() {
     const id = document.querySelector('#id').value;
@@ -218,20 +137,6 @@ function confirmDeleteUser() {
         .catch(error => console.error('Error deleting user:', error));
 }
 
-
-// Функция для удаления пользователя
-// function deleteUser(id) {
-//     console.log(id);
-//     fetch(`/api/admin/users/${id}`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//
-//     })
-//         .then(() => loadUsers()) // Обновляем таблицу после удаления
-//         .catch(error => console.error('Error deleting user:', error));
-// }
 
 // Инициализация страницы
 document.addEventListener('DOMContentLoaded', function () {
