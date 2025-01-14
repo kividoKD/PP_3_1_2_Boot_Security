@@ -22,34 +22,28 @@
             <div class="border container text-center bg-white">
                 <div class="row justify-content-md-center m-3">
                     <div class="col col-5">
-                        <form th:method="POST" th:action="@{/admin}" th:object="${user}">
-                            <div class="form-group mb-3">
-                                <label for="name" class="form-label"><b>Имя:</b></label>
-                                <input type="text" th:field="*{username}" id="name" class="form-control"/>
+                        <form id="userForm">
+                            <div class="mb-3">
+                                <label th:for="username" class="col-form-label">Name</label>
+                                <input class="form-control" type="text" id="username" placeholder="Username">
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label for="email" class="form-label"><b>Email:</b></label>
-                                <input type="email" th:field="*{email}" id="email" class="form-control"/>
+                            <div class="mb-3">
+                                <label th:for="email" class="col-form-label">Email</label>
+                                <input class="form-control" type="email" id="email" placeholder="Email">
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label for="password" class="form-label"><b>Password:</b></label>
-                                <input type="text" th:field="*{password}" id="password" class="form-control"/>
+                            <div class="mb-3">
+                                <label th:for="password" class="col-form-label">Password</label>
+                                <input class="form-control" type="password" id="password" placeholder="Password">
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label for="roles" class="form-label"><b>Roles:</b></label>
-                                <select id="roles" multiple="multiple" th:field="*{roles}" class="form-control">
-                                    <option th:each="role: ${rolesFromDb}" th:value="${role.getId()}" th:text="${#strings.replace(role.getName(), 'ROLE_', '')}"></option>
-                                </select>
+                            <div class="mb-3">
+                                <label th:for="roles" class="col-form-label">Roles</label>
+                                <select class="form-control" id="roles" multiple></select>
                             </div>
-                            <button type="submit" class="btn btn-success">Добавить</button>
+                            <button type="button" class="btn btn-primary" id="saveButton" onclick="addUser()">Сохранить</button>
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
     </body>
 </html>

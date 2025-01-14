@@ -25,6 +25,24 @@ function loadUsers() {
 }
 
 
+// Функция для загрузки ролей
+function loadRoles() {
+    fetch('/api/admin/roles')
+        .then(response => response.json())
+        .then(roles => {
+            const rolesSelect = document.querySelector('#roles');
+            roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;  // Сохраняем id роли
+                option.textContent = role.name.replace('ROLE_', '');
+                rolesSelect.appendChild(option);
+            });
+            window.roles = roles;
+        })
+        .catch(error => console.error('Error loading roles:', error));
+}
+
+
 // Функция для открытия модального окна (редактирование или удаление)
 function openUserModal(id, mode) {
     fetch(`/api/admin/users/${id}`)
@@ -37,35 +55,30 @@ function openUserModal(id, mode) {
             document.querySelector('#password').value = ''; // Очищаем поле пароля для редактирования
             document.querySelector('#roles').innerHTML = ''; // Очищаем список ролей
 
-            // Загружаем список ролей
-            fetch('/api/admin/roles')
-                .then(response => response.json())
-                .then(roles => {
-                    const rolesSelect = document.querySelector('#roles');
-                    roles.forEach(role => {
-                        const option = document.createElement('option');
-                        option.value = role.id;  // Сохраняем id роли
-                        option.textContent = role.name.replace('ROLE_', '');
-                        if (user.roles.some(r => r.id === role.id)) {
-                            option.selected = true;
-                        }
-                        rolesSelect.appendChild(option);
-                    });
-                });
+            const rolesSelect = document.querySelector('#roles');
+            roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;  // Сохраняем id роли
+                option.textContent = role.name.replace('ROLE_', '');
+                if (user.roles.some(r => r.id === role.id)) {
+                    option.selected = true;
+                }
+                rolesSelect.appendChild(option);
+            });
 
             // Включаем или выключаем поля в зависимости от режима
             const userModalLabel = document.querySelector('#userModalLabel');
-            const saveButton = document.querySelector('#saveButton');
+            const updateButton = document.querySelector('#updateButton');
             const deleteButton = document.querySelector('#deleteButton');
 
             if (mode === 'edit') {
                 userModalLabel.textContent = 'Edit User';
-                saveButton.style.display = 'inline-block';
+                updateButton.style.display = 'inline-block';
                 deleteButton.style.display = 'none';
                 enableForm(true); // Включаем поля для редактирования
             } else if (mode === 'delete') {
                 userModalLabel.textContent = 'Delete User';
-                saveButton.style.display = 'none';
+                updateButton.style.display = 'none';
                 deleteButton.style.display = 'inline-block';
                 enableForm(false); // Делаем поля только для чтения
             }
@@ -95,7 +108,6 @@ function updateUser() {
     const roles = Array.from(document.querySelector('#roles').selectedOptions)
         .map(option => ({ id: option.value }));  // Преобразуем в массив объектов
 
-
     const user = {
         id: id,
         username: username,
@@ -120,6 +132,40 @@ function updateUser() {
 }
 
 
+// Функция добавления нового пользователя
+function addUser() {
+    const username = document.querySelector('#username').value;
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+    const roles = Array.from(document.querySelector('#roles').selectedOptions)
+        .map(option => ({ id: option.value }));  // Преобразуем в массив объектов
+
+    const newUser = {
+        username: username,
+        email: email,
+        password: password,
+        roles: roles
+    };
+
+    // Отправка запроса на создание пользователя
+    fetch('/api/admin/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    })
+        .then(response => response.json())
+        .then(() => {
+            loadUsers(); // Обновляем список пользователей
+            alert("User added successfully!");
+
+            document.querySelector('#userForm').reset();
+        })
+        .catch(error => console.error('Error adding user:', error));
+}
+
+
 // Функция для подтверждения удаления пользователя
 function confirmDeleteUser() {
     const id = document.querySelector('#id').value;
@@ -141,4 +187,5 @@ function confirmDeleteUser() {
 // Инициализация страницы
 document.addEventListener('DOMContentLoaded', function () {
     loadUsers(); // Загружаем данные при загрузке страницы
+    loadRoles();
 });
